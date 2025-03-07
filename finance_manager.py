@@ -45,6 +45,19 @@ def add_category(name: str) -> str:
     session.close()
     return f"✅ Category '{name}' added successfully."
 
+# Function to delete a category
+def delete_category(name: str) -> str:
+    session = SessionLocal()
+    category = session.query(Category).filter_by(name=name.lower()).first()
+    if not category:
+        session.close()
+        return "❌ Category not found."
+    
+    session.delete(category)
+    session.commit()
+    session.close()
+    return f"✅ Category '{name}' deleted successfully."
+
 # Function to update an existing category
 def update_category(old_name: str, new_name: str) -> str:
     session = SessionLocal()
